@@ -1,14 +1,15 @@
 <?php
 
-namespace PotatoORM;
+//namespace PotatoORM;
+
 /**
 * Class that assists in data persistence and retrieval
 */
 class Database
 {
     private $host = "localhost";
-    private $username = "root";
-    private $password = "root";
+    private $username = "potato";
+    private $password = "potatopass";
     private $database_name = "test";
     private $database_type = "mysql";
 
@@ -25,12 +26,16 @@ class Database
         $options = [
             PDO::ATTR_PERSISTENT   => true,
             PDO::ATTR_ERRMODE      => PDO::ERRMODE_EXCEPTION
-        ]
+        ];
 
         //create a new pdo instance
         try {
             $this->database_handler = new PDO(
-                $this->dsn, $this->username, $this->password, $options);
+                $this->dsn,
+                $this->username,
+                $this->password,
+                $options
+            );
         } catch (PDOException $e) {
             $this->error_message = $e->getMessage();
         }
@@ -54,7 +59,7 @@ class Database
     /**
     * Binds the values of the parameters in the statement
     */
-    public function bind($param, $value, $type=null)
+    public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
             if (is_int($value)) {
@@ -77,8 +82,7 @@ class Database
         $this->statement->execute();
     }
 
-    public function select(
-        $table, $where="", $fields="*", $order="", $limit=null, $offset="")
+    public function select($table, $where = "", $fields = "*", $order = "", $limit = null, $offset = "" )
     {
         $query = "SELECT $fields FROM $table"
             . ($where ? " WHERE $where " : "")
@@ -107,7 +111,7 @@ class Database
         $this->execute();
     }
 
-    public function update($table, array $data, $where="")
+    public function update($table, array $data, $where = "")
     {
         ksort($data);
         $field_details = null;
@@ -129,34 +133,16 @@ class Database
         $this->execute();
     }
 
-    public function delete($table, $where="", $limit=1)
+    public function delete($table, $where = "", $limit = 1)
     {
         $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
         $this->execute();
     }
 
     /**
-    * Returns a collection of associative arrays
-    */
-    public function resultSet()
-    {
-        $this->execute();
-        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-    * Returns an associative array
-    */
-    public function single()
-    {
-        $this->execute();
-        return $this->statement->fetch(PDO::FETCH_ASSOC);
-    }
-
-    /**
     * Returns a collection of objects
     */
-    public function objectSet($entitySet)
+    public function objectSet($entityClass)
     {
         $this->execute();
         $this->statement->setFetchMode(PDO::FETCH_CLASS, $entityClass);
@@ -171,35 +157,5 @@ class Database
         $this->execute();
         $this->statement->setFetchMode(PDO::FETCH_CLASS, $entityClass);
         return $this->statement->fetch();
-    }
-
-    public function getRowCount()
-    {
-        return $this->statement->rowCount();
-    }
-
-    public function getLastInsertId()
-    {
-        return $this->database_handler->lastInsertId();
-    }
-
-    public function beginTransaction()
-    {
-        return $this->database_handler->beginTransaction();
-    }
-
-    public function commitTransaction()
-    {
-        return $this->database_handler->commit();
-    }
-
-    public function rollbackTransaction()
-    {
-        return $this->database_handler->rollback();
-    }
-
-    public function debugDumpParams()
-    {
-        return $this->statement->debugDumpParams();
     }
 }
