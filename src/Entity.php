@@ -1,10 +1,10 @@
 <?php
 
-namespace PotatoORM;
+//namespace PotatoORM;
 
 class Entity
 {
-    private db;
+    private $db;
 
     public function __construct()
     {
@@ -30,7 +30,7 @@ class Entity
 
         $where = "";
         foreach ($this->primary_keys as $key) {
-            $where .= " $key = $this->$key &&";
+            $where .= " $key = " . $this->$key . " &&";
         }
 
         $where = rtrim($where, "&");
@@ -41,7 +41,7 @@ class Entity
     {
         $where = "";
         foreach ($this->primary_keys as $key) {
-            $where .= " $key = $this->$key &&";
+            $where .= " $key = " . $this->$key . " &&";
         }
 
         $where = rtrim($where, "&");
