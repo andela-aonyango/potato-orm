@@ -1,6 +1,8 @@
 <?php
 
-//namespace PotatoORM;
+namespace PotatoORM;
+
+use PDO;
 
 /**
 * Class that assists in data persistence and retrieval

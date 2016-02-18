@@ -1,7 +1,9 @@
 <?php
 
-require_once "Database.php";
-require_once "EntityState.php";
+namespace PotatoORM;
+
+use PotatoORM\Database;
+use PotatoORM\EntityState;
 
 class DBContext
 {

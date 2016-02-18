@@ -1,6 +1,6 @@
 <?php
 
-//namespace PotatoORM;
+namespace PotatoORM;
 
 class Entity
 {
