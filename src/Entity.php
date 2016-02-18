@@ -47,4 +47,18 @@ class Entity
         $where = rtrim($where, "&");
         $this->db->delete($this->entity_table, $where);
     }
+
+    public function find($id)
+    {
+        $this->db->select($this->entity_table, " id = $id");
+
+        return $this->db->singleObject(get_called_class());
+    }
+
+    public function findAll()
+    {
+        $this->db->select($this->entity_table);
+
+        return $this->db->objectSet(get_called_class());
+    }
 }
