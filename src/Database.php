@@ -80,7 +80,6 @@ class Database
 
     public function execute()
     {
-        // todo: put a check here to see if the statement has been prepared
         $this->statement->execute();
     }
 
