@@ -83,7 +83,7 @@ class Database
         $this->statement->execute();
     }
 
-    public function select($table, $where = "", $fields = "*", $order = "", $limit = null, $offset = "" )
+    public function select($table, $where = "", $fields = "*", $order = "", $limit = null, $offset = "")
     {
         $query = "SELECT $fields FROM $table"
             . ($where ? " WHERE $where " : "")
