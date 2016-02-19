@@ -17,7 +17,7 @@ class Entity
             $data[$key] = $this->$key;
         }
 
-        $this->db->insert($this->entity_table, $data);
+        return $this->db->insert($this->entity_table, $data);
     }
 
     public function update()

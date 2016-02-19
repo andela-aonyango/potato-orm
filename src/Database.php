@@ -110,6 +110,8 @@ class Database
         }
 
         $this->execute();
+
+        return $this->database_handler->lastInsertId();
     }
 
     public function update($table, array $data, $where = "")
