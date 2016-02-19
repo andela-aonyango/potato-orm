@@ -52,6 +52,8 @@ class Database
 
     /**
     * Prepares and returns the statement
+    *
+    * @param string $query  The SQL query to be prepared
     */
     public function prepare($query)
     {
@@ -60,6 +62,10 @@ class Database
 
     /**
     * Binds the values of the parameters in the statement
+    *
+    * @param mixed $param  The parameter that the value will be bound to
+    * @param mixed $value  The value to be bound to the parameter
+    * @param PDO::<type> $type   The PDO SQL data type of the value being bound to the parameter
     */
     public function bind($param, $value, $type = null)
     {
@@ -78,6 +84,9 @@ class Database
         $this->statement->bindValue($param, $value, $type);
     }
 
+    /**
+    * Executes the SQL statement
+    */
     public function execute()
     {
         $this->statement->execute();
