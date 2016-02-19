@@ -22,6 +22,9 @@ use PHPUnit_Framework_TestCase;
  */
 class EntityTest extends PHPUnit_Framework_TestCase
 {
+    /**
+    * Tests if the add() function inserts a record into the database
+    */
     public function testAdd()
     {
         $user = new Person();
@@ -34,6 +37,9 @@ class EntityTest extends PHPUnit_Framework_TestCase
         $user->find($id)->remove();
     }
 
+    /**
+    * Tests if the find() function returns a particular record
+    */
     public function testFind()
     {
         $user = new Person();
@@ -41,12 +47,38 @@ class EntityTest extends PHPUnit_Framework_TestCase
         $user->last_name = "user";
         $id = $user->add();
 
+        // use a different object retrieved from the database
+        // to ensure that we'll be comparing an object from the database
         $testUser = $user->find($id);
 
         $this->assertEquals("find", $testUser->first_name);
         $testUser->remove();
     }
 
+    /**
+    * Tests if the findAll() function returns all records in the table
+    */
+    public function testFindAll()
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            $user = new Person();
+            $user->first_name = "findAll";
+            $user->last_name = "user{$i}";
+            $id = $user->add();
+        }
+
+        $users = $user->findAll();
+
+        $this->assertEquals(10, count($users));
+
+        foreach ($users as $user) {
+            $user->remove();
+        }
+    }
+
+    /**
+    * Tests if a record is retrievable after being remove()d
+    */
     public function testRemove()
     {
         $user = new Person();
