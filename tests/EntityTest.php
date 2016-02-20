@@ -32,7 +32,7 @@ class EntityTest extends PHPUnit_Framework_TestCase
         $user->last_name = "user";
         $id = $user->add();
 
-        // check if the last inserted id was returned by the operation
+        // if the insertion was successful, the last inserted id was assigned
         $this->assertInternalType("int", (int) $id);
         $user->find($id)->remove();
     }
