@@ -14,6 +14,8 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
   - mysql -e 'create database if not exists test;'
+  - mysql -u root -e "create user potato identified by 'potatopass'; grant all on test.* to potato;"
+  - mysql -u root -e "create user potato@localhost identified by 'potatopass'; grant all on test.* to potato@localhost;"
   - mysql -e 'use test; create table if not exists Person (id int unsigned auto_increment primary key, first_name varchar(30) not null, last_name varchar(30) not null, age int(2), gender varchar(7) );'
 
 script:
