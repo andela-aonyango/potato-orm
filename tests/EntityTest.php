@@ -92,4 +92,16 @@ class EntityTest extends PHPUnit_Framework_TestCase
         // find() returns false if the record was not found in the database
         $this->assertFalse($testUser->find($id));
     }
+
+    public function tearDown()
+    {
+        $user = new Person();
+        $users = $user->findAll();
+
+        if (!is_null($user)) {
+            foreach ($users as $user) {
+                $user->remove();
+            }
+        }
+    }
 }
