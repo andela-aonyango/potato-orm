@@ -7,9 +7,14 @@ php:
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 
+services:
+  - mysql
+
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - mysql -e 'create database if not exists test;'
+  - mysql -e 'use test; create table if not exists Person (id int unsigned auto_increment primary key, first_name varchar(30) not null, last_name varchar(30) not null, age int(2), gender varchar(7) );'
 
 script:
   - vendor/bin/phpcs --standard=psr2 src/
