@@ -1,7 +1,7 @@
 <?php
 /**
  * @file     PersonTest.php
- * This class tests the functions in the Database class
+ * This class tests the functions in the Person class
  * @package  PotatoORM
  * @author   andrew <andrew.onyango@andela.com>
  * @license  MIT => https://opensource.org/licenses/MIT
@@ -13,7 +13,7 @@ use PotatoORM\Models\Person;
 use PHPUnit_Framework_TestCase;
 
 /**
- *Tests for the Entity class and classes that derive from it
+ *Tests for the Person class
  *
  * @category Test
  * @package  PotatoORM
