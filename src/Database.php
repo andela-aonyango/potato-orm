@@ -147,7 +147,13 @@ class Database
 
     public function delete($table, $where = "", $limit = 1)
     {
-        $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
+        if (!empty(trim($where))) {
+            $statement = "DELETE FROM $table WHERE $where LIMIT $limit";
+        } else {
+            $statement = "DELETE FROM $table";
+        }
+        
+        $this->prepare($statement);
         $this->execute();
     }
 
