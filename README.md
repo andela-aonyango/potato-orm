@@ -20,6 +20,17 @@ $ composer require andela-aonyango/potato-orm
 
 ### Usage
 
+#### Sample Table
+```sql
+create table Person (
+    id int unsigned auto_increment primary key,
+    first_name varchar(30) not null,
+    last_name varchar(30) not null,
+    age int(2),
+    gender varchar(7)
+);
+```
+#### Sample Usage
 ``` php
 <?php
 // Example usage of this ORM
