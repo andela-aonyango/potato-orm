@@ -17,7 +17,6 @@ class Database
 
     private $dsn;
     private $database_handler;
-    private $error_message;
     private $statement;
 
     /**
