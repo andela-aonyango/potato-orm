@@ -20,7 +20,6 @@ class Entity
 
     /**
      * Instantiates a Database object
-     *
      */
     public function __construct()
     {
