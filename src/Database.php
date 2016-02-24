@@ -20,6 +20,9 @@ class Database
     private $error_message;
     private $statement;
 
+    /**
+     * Sets the DSN for the database and creates a connection
+     */
     public function __construct()
     {
         $this->setDSN();
@@ -31,16 +34,12 @@ class Database
         ];
 
         //create a new pdo instance
-        try {
-            $this->database_handler = new PDO(
-                $this->dsn,
-                $this->username,
-                $this->password,
-                $options
-            );
-        } catch (PDOException $e) {
-            $this->error_message = $e->getMessage();
-        }
+        $this->database_handler = new PDO(
+            $this->dsn,
+            $this->username,
+            $this->password,
+            $options
+        );
     }
 
     private function setDSN()
@@ -61,11 +60,10 @@ class Database
     }
 
     /**
-    * Binds the values of the parameters in the statement
-    *
+    * Binds the values of the parameters in the statement    *
     * @param mixed $param  The parameter that the value will be bound to
     * @param mixed $value  The value to be bound to the parameter
-    * @param PDO::<type> $type   The PDO SQL data type of the value being bound to the parameter
+    * @param $type   The PDO SQL data type of the value being bound to the parameter
     */
     public function bind($param, $value, $type = null)
     {
@@ -92,6 +90,15 @@ class Database
         $this->statement->execute();
     }
 
+    /**
+     * Prepares a select query to be executed by the execute() method
+     * @param string $table  The name of the table to query
+     * @param $where  The condition to be used when querying
+     * @param $fields The columns to be returned
+     * @param $order  The order in which to return the records
+     * @param $limit
+     * @param $offset
+     */
     public function select($table, $where = "", $fields = "*", $order = "", $limit = null, $offset = "")
     {
         $query = "SELECT $fields FROM $table"
@@ -103,10 +110,14 @@ class Database
         $this->prepare($query);
     }
 
+    /**
+     * Inserts a new record in the database and returns the last inserted ID
+     * @param string $table  The name of the table to insert the record into
+     * @param array $data    The information to insert
+     * @return int
+     */
     public function insert($table, $data)
     {
-        ksort($data);
-
         $field_names = implode(",", array_keys($data));
         $field_values = ":" . implode(", :", array_keys($data));
 
@@ -123,9 +134,14 @@ class Database
         return $this->database_handler->lastInsertId();
     }
 
+    /**
+     * Updates a record in the database
+     * @param string $table  The table to update
+     * @param array $data    The updated information in the form of an array
+     * @param $where  The condition that needs to be true in order to update
+     */
     public function update($table, array $data, $where = "")
     {
-        ksort($data);
         $field_details = null;
 
         foreach ($data as $key => $value) {
@@ -145,6 +161,12 @@ class Database
         $this->execute();
     }
 
+    /**
+     * Deletes a record or records from the database
+     * @param string $table  The table to delete the record(s) from
+     * @param $where  The condition that needs to be true in order to delete
+     * @param int $limit
+     */
     public function delete($table, $where = "", $limit = 1)
     {
         if (!empty(trim($where))) {
@@ -152,14 +174,16 @@ class Database
         } else {
             $statement = "DELETE FROM $table";
         }
-        
+
         $this->prepare($statement);
         $this->execute();
     }
 
     /**
-    * Returns a collection of objects
-    */
+     * Retrieves all records from the corresponding table in the
+     * database and returns them as an array of objects
+     * @return array
+     */
     public function objectSet($entityClass)
     {
         $this->execute();
@@ -168,8 +192,10 @@ class Database
     }
 
     /**
-    * Returns an object
-    */
+     * Retrieves a record from the database based on its ID
+     * and returns it in the form of the corresponding object
+     * @return object
+     */
     public function singleObject($entityClass)
     {
         $this->execute();
