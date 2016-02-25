@@ -17,8 +17,13 @@ Via Composer
 ``` bash
 $ composer require andela-aonyango/potato-orm
 ```
+In the package directory, run
+``` bash
+$ composer install
+```
 
 ### Usage
+Edit the example .env provided in the root of this package with the database settings you will use (make sure you .gitignore **YOUR** .env file). The one given uses MYSQL settings. PDO supports many [database drivers](https://secure.php.net/manual/en/pdo.drivers.php) so you can get familiar with what are valid/invalid inputs for the DSN and so on.
 
 #### Sample Table
 ```sql
