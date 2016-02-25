@@ -3,18 +3,13 @@
 namespace PotatoORM;
 
 use PDO;
+use Dotenv\Dotenv;
 
 /**
 * Class that assists in data persistence and retrieval
 */
 class Database
 {
-    private $host = "localhost";
-    private $username = "potato";
-    private $password = "potatopass";
-    private $database_name = "test";
-    private $database_type = "mysql";
-
     private $dsn;
     private $database_handler;
     private $statement;
@@ -35,17 +30,24 @@ class Database
         //create a new pdo instance
         $this->database_handler = new PDO(
             $this->dsn,
-            $this->username,
-            $this->password,
+            getenv("USERNAME"),
+            getenv("PASSWORD"),
             $options
         );
     }
 
+    /**
+    * Sets the DSN as set in the environment variable file
+    */
     private function setDSN()
     {
-        $this->dsn = $this->database_type
-            . ":host=" . $this->host
-            . ";dbname=" . $this->database_name;
+        $env = new Dotenv(__DIR__ . "/../");
+        $env->load();
+        
+        $this->dsn = getenv("DATABASE_TYPE")
+            . ":host=" . getenv("HOST")
+            . ";dbname=" . getenv("DATABASE_NAME")
+            . ";port=" . getenv("PORT");
     }
 
     /**
