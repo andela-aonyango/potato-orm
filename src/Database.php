@@ -51,7 +51,7 @@ class Database
     }
 
     /**
-    * Prepares and returns the statement
+    * Prepares the statement
     *
     * @param string $query  The SQL query to be prepared
     */
@@ -95,18 +95,11 @@ class Database
      * Prepares a select query to be executed by the execute() method
      * @param string $table  The name of the table to query
      * @param $where  The condition to be used when querying
-     * @param $fields The columns to be returned
-     * @param $order  The order in which to return the records
-     * @param $limit
-     * @param $offset
      */
-    public function select($table, $where = "", $fields = "*", $order = "", $limit = null, $offset = "")
+    public function select($table, $where = "", $fields = "*")
     {
         $query = "SELECT $fields FROM $table"
-            . ($where ? " WHERE $where " : "")
-            . ($limit ? " LIMIT $limit " : "")
-            . (($offset && $limit ? " OFFSET $offset " : ""))
-            . ($order ? " ORDER BY $order " : "");
+            . ($where ? " WHERE $where " : "");
 
         $this->prepare($query);
     }
