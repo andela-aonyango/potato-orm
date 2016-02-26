@@ -96,9 +96,9 @@ class Database
      * @param string $table  The name of the table to query
      * @param $where  The condition to be used when querying
      */
-    public function select($table, $where = "", $fields = "*")
+    public function select($table, $where = "")
     {
-        $query = "SELECT $fields FROM $table"
+        $query = "SELECT * FROM $table"
             . ($where ? " WHERE $where " : "");
 
         $this->prepare($query);
